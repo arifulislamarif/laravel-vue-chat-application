@@ -31,7 +31,6 @@
 
       <div class="chat-history">
         <ul>
-
           <li class="clearfix" v-for="(message, index) in userMessage.messages" :key="index">
             <div :class="`message-data ${userMessage.user.id == message.user.id ? 'align-right':''}`">
                 <span class="message-data-time" >10:10 AM, Today</span> &nbsp; &nbsp;
@@ -41,17 +40,6 @@
                 {{ message.message }}
             </div>
           </li>
-
-          <!-- <li>
-            <div class="message-data">
-              <span class="message-data-name"><i class="fa fa-circle online"></i> Vincent</span>
-              <span class="message-data-time">10:12 AM, Today</span>
-            </div>
-            <div class="message my-message">
-              Are we meeting today? Project has been already finished and I have results to show you.
-            </div>
-          </li> -->
-
         </ul>
 
       </div> <!-- end chat-history -->
