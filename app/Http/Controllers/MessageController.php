@@ -26,6 +26,7 @@ class MessageController extends Controller
    }
 
    public function usermessage($id){
+        $user = User::findOrFail($id);
         $messages = Message::where(function($q) use ($id){
             $q->where('from', Auth::user()->id);
             $q->where('to', $id);
@@ -34,11 +35,12 @@ class MessageController extends Controller
             $q->where('to', Auth::user()->id);
         })->with('user')->get();
 
-        // if (\Request::ajax()) {
+        if (\Request::ajax()) {
             return response()->json([
+                'user' => $user,
                 'messages' => $messages
             ], 200);
-        // }
+        }
 
         abort(404);
    }

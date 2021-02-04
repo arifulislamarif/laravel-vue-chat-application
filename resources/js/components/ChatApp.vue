@@ -23,7 +23,7 @@
         <img height="55px" width="55px" style="border-radius:30px" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTpCKq1XnPYYDaUIlwlsvmLPZ-9-rdK28RToA&usqp=CAU" alt="avatar" />
 
         <div class="chat-about">
-          <div class="chat-with">Chat with Vincent Porter</div>
+          <div class="chat-with" v-if="userMessage.user">{{ userMessage.user.name }}</div>
           <div class="chat-num-messages">already 1 902 messages</div>
         </div>
         <i class="fa fa-star"></i>
@@ -32,7 +32,7 @@
       <div class="chat-history">
         <ul>
 
-          <li class="clearfix" v-for="(message, index) in userMessage" :key="index">
+          <li class="clearfix" v-for="(message, index) in userMessage.messages" :key="index">
             <div class="message-data align-right">
               <span class="message-data-time" >10:10 AM, Today</span> &nbsp; &nbsp;
               <span class="message-data-name" >{{ message.user.name }}</span> <i class="fa fa-circle me"></i>

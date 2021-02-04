@@ -37677,12 +37677,37 @@ var render = function() {
     ]),
     _vm._v(" "),
     _c("div", { staticClass: "chat" }, [
-      _vm._m(2),
+      _c("div", { staticClass: "chat-header clearfix" }, [
+        _c("img", {
+          staticStyle: { "border-radius": "30px" },
+          attrs: {
+            height: "55px",
+            width: "55px",
+            src:
+              "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTpCKq1XnPYYDaUIlwlsvmLPZ-9-rdK28RToA&usqp=CAU",
+            alt: "avatar"
+          }
+        }),
+        _vm._v(" "),
+        _c("div", { staticClass: "chat-about" }, [
+          _vm.userMessage.user
+            ? _c("div", { staticClass: "chat-with" }, [
+                _vm._v(_vm._s(_vm.userMessage.user.name))
+              ])
+            : _vm._e(),
+          _vm._v(" "),
+          _c("div", { staticClass: "chat-num-messages" }, [
+            _vm._v("already 1 902 messages")
+          ])
+        ]),
+        _vm._v(" "),
+        _c("i", { staticClass: "fa fa-star" })
+      ]),
       _vm._v(" "),
       _c("div", { staticClass: "chat-history" }, [
         _c(
           "ul",
-          _vm._l(_vm.userMessage, function(message, index) {
+          _vm._l(_vm.userMessage.messages, function(message, index) {
             return _c("li", { key: index, staticClass: "clearfix" }, [
               _c("div", { staticClass: "message-data align-right" }, [
                 _c("span", { staticClass: "message-data-time" }, [
@@ -37771,35 +37796,6 @@ var staticRenderFns = [
     return _c("div", { staticClass: "status" }, [
       _c("i", { staticClass: "fa fa-circle online" }),
       _vm._v(" online\n          ")
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "chat-header clearfix" }, [
-      _c("img", {
-        staticStyle: { "border-radius": "30px" },
-        attrs: {
-          height: "55px",
-          width: "55px",
-          src:
-            "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTpCKq1XnPYYDaUIlwlsvmLPZ-9-rdK28RToA&usqp=CAU",
-          alt: "avatar"
-        }
-      }),
-      _vm._v(" "),
-      _c("div", { staticClass: "chat-about" }, [
-        _c("div", { staticClass: "chat-with" }, [
-          _vm._v("Chat with Vincent Porter")
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "chat-num-messages" }, [
-          _vm._v("already 1 902 messages")
-        ])
-      ]),
-      _vm._v(" "),
-      _c("i", { staticClass: "fa fa-star" })
     ])
   }
 ]
@@ -51498,8 +51494,8 @@ __webpack_require__.r(__webpack_exports__);
     },
     userMessage: function userMessage(context, payload) {
       axios.get("/usermessage/".concat(payload)).then(function (response) {
-        console.log(response.data.messages);
-        context.commit("usermessage", response.data.messages);
+        console.log(response.data);
+        context.commit("usermessage", response.data);
       });
     }
   },

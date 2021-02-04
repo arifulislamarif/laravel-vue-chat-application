@@ -19,8 +19,8 @@ export default {
         },
         userMessage(context, payload) {
             axios.get(`/usermessage/${payload}`).then(response => {
-                console.log(response.data.messages);
-                context.commit("usermessage", response.data.messages);
+                console.log(response.data);
+                context.commit("usermessage", response.data);
             });
         }
     },
