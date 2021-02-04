@@ -29,7 +29,7 @@
         <i class="fa fa-star"></i>
       </div> <!-- end chat-header -->
 
-      <div class="chat-history">
+      <div class="chat-history" v-chat-scroll>
         <ul>
           <li class="clearfix" v-for="(message, index) in userMessage.messages" :key="index">
             <div :class="`message-data ${userMessage.user.id == message.user.id ? 'align-right':''}`">
@@ -96,7 +96,3 @@
         created(){},
     }
 </script>
-
-<style scoped>
-
-</style>

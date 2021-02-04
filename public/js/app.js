@@ -59180,10 +59180,104 @@ exports.clearImmediate = (typeof self !== "undefined" && self.clearImmediate) ||
 
 /***/ }),
 
-/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/ChatApp.vue?vue&type=template&id=1da0bc8e&scoped=true&":
-/*!**********************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/ChatApp.vue?vue&type=template&id=1da0bc8e&scoped=true& ***!
-  \**********************************************************************************************************************************************************************************************************************/
+/***/ "./node_modules/vue-chat-scroll/dist/vue-chat-scroll.js":
+/*!**************************************************************!*\
+  !*** ./node_modules/vue-chat-scroll/dist/vue-chat-scroll.js ***!
+  \**************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+(function (global, factory) {
+   true ? module.exports = factory() :
+  undefined;
+}(this, (function () { 'use strict';
+
+  /**
+  * @name VueJS vChatScroll (vue-chat-scroll)
+  * @description Monitors an element and scrolls to the bottom if a new child is added
+  * @author Theodore Messinezis <theo@theomessin.com>
+  * @file v-chat-scroll  directive definition
+  */
+  var scrollToBottom = function scrollToBottom(el, smooth) {
+    if (typeof el.scroll === "function") {
+      el.scroll({
+        top: el.scrollHeight,
+        behavior: smooth ? 'smooth' : 'instant'
+      });
+    } else {
+      el.scrollTop = el.scrollHeight;
+    }
+  };
+
+  var vChatScroll = {
+    bind: function bind(el, binding) {
+      var scrolled = false;
+      el.addEventListener('scroll', function (e) {
+        scrolled = el.scrollTop + el.clientHeight + 1 < el.scrollHeight;
+
+        if (scrolled && el.scrollTop === 0) {
+          el.dispatchEvent(new Event("v-chat-scroll-top-reached"));
+        }
+      });
+      new MutationObserver(function (e) {
+        var config = binding.value || {};
+        if (config.enabled === false) return;
+        var pause = config.always === false && scrolled;
+        var addedNodes = e[e.length - 1].addedNodes.length;
+        var removedNodes = e[e.length - 1].removedNodes.length;
+
+        if (config.scrollonremoved) {
+          if (pause || addedNodes != 1 && removedNodes != 1) return;
+        } else {
+          if (pause || addedNodes != 1) return;
+        }
+
+        var smooth = config.smooth;
+        var loadingRemoved = !addedNodes && removedNodes === 1;
+
+        if (loadingRemoved && config.scrollonremoved && 'smoothonremoved' in config) {
+          smooth = config.smoothonremoved;
+        }
+
+        scrollToBottom(el, smooth);
+      }).observe(el, {
+        childList: true,
+        subtree: true
+      });
+    },
+    inserted: function inserted(el, binding) {
+      var config = binding.value || {};
+      scrollToBottom(el, config.notSmoothOnInit ? false : config.smooth);
+    }
+  };
+
+  /**
+  * @name VueJS vChatScroll (vue-chat-scroll)
+  * @description Monitors an element and scrolls to the bottom if a new child is added
+  * @author Theodore Messinezis <theo@theomessin.com>
+  * @file vue-chat-scroll plugin definition
+  */
+  var VueChatScroll = {
+    install: function install(Vue, options) {
+      Vue.directive('chat-scroll', vChatScroll);
+    }
+  };
+
+  if (typeof window !== 'undefined' && window.Vue) {
+    window.Vue.use(VueChatScroll);
+  }
+
+  return VueChatScroll;
+
+})));
+
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/ChatApp.vue?vue&type=template&id=1da0bc8e&":
+/*!**********************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/ChatApp.vue?vue&type=template&id=1da0bc8e& ***!
+  \**********************************************************************************************************************************************************************************************************/
 /*! exports provided: render, staticRenderFns */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -59267,55 +59361,62 @@ var render = function() {
         _c("i", { staticClass: "fa fa-star" })
       ]),
       _vm._v(" "),
-      _c("div", { staticClass: "chat-history" }, [
-        _c(
-          "ul",
-          _vm._l(_vm.userMessage.messages, function(message, index) {
-            return _c("li", { key: index, staticClass: "clearfix" }, [
-              _c(
-                "div",
-                {
-                  class:
-                    "message-data " +
-                    (_vm.userMessage.user.id == message.user.id
-                      ? "align-right"
-                      : "")
-                },
-                [
-                  _c("span", { staticClass: "message-data-time" }, [
-                    _vm._v(_vm._s(_vm._f("timeformat")(message.created_at)))
-                  ]),
-                  _vm._v("    \n              "),
-                  _c("span", { staticClass: "message-data-name" }, [
-                    _vm._v(_vm._s(message.user.name))
-                  ]),
-                  _vm._v(" "),
-                  _c("i", { staticClass: "fa fa-circle me" })
-                ]
-              ),
-              _vm._v(" "),
-              _c(
-                "div",
-                {
-                  class:
-                    "message " +
-                    (_vm.userMessage.user.id == message.user.id
-                      ? "other-message float-right"
-                      : "my-message")
-                },
-                [
-                  _vm._v(
-                    "\n              " +
-                      _vm._s(message.message) +
-                      "\n          "
-                  )
-                ]
-              )
-            ])
-          }),
-          0
-        )
-      ]),
+      _c(
+        "div",
+        {
+          directives: [{ name: "chat-scroll", rawName: "v-chat-scroll" }],
+          staticClass: "chat-history"
+        },
+        [
+          _c(
+            "ul",
+            _vm._l(_vm.userMessage.messages, function(message, index) {
+              return _c("li", { key: index, staticClass: "clearfix" }, [
+                _c(
+                  "div",
+                  {
+                    class:
+                      "message-data " +
+                      (_vm.userMessage.user.id == message.user.id
+                        ? "align-right"
+                        : "")
+                  },
+                  [
+                    _c("span", { staticClass: "message-data-time" }, [
+                      _vm._v(_vm._s(_vm._f("timeformat")(message.created_at)))
+                    ]),
+                    _vm._v("    \n              "),
+                    _c("span", { staticClass: "message-data-name" }, [
+                      _vm._v(_vm._s(message.user.name))
+                    ]),
+                    _vm._v(" "),
+                    _c("i", { staticClass: "fa fa-circle me" })
+                  ]
+                ),
+                _vm._v(" "),
+                _c(
+                  "div",
+                  {
+                    class:
+                      "message " +
+                      (_vm.userMessage.user.id == message.user.id
+                        ? "other-message float-right"
+                        : "my-message")
+                  },
+                  [
+                    _vm._v(
+                      "\n              " +
+                        _vm._s(message.message) +
+                        "\n          "
+                    )
+                  ]
+                )
+              ])
+            }),
+            0
+          )
+        ]
+      ),
       _vm._v(" "),
       _c("div", { staticClass: "chat-message clearfix" }, [
         _c("textarea", {
@@ -72854,16 +72955,21 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
 /* harmony import */ var _filter__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./filter */ "./resources/js/filter.js");
 /* harmony import */ var _filter__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_filter__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var vue_chat_scroll__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! vue-chat-scroll */ "./node_modules/vue-chat-scroll/dist/vue-chat-scroll.js");
+/* harmony import */ var vue_chat_scroll__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(vue_chat_scroll__WEBPACK_IMPORTED_MODULE_3__);
 __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
 
-window.Vue = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
-Vue.component('main-app', __webpack_require__(/*! ./components/MainApp.vue */ "./resources/js/components/MainApp.vue")["default"]); // Vuex
+window.Vue = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js"); // Vuex
 
 
 
 var store = new vuex__WEBPACK_IMPORTED_MODULE_1__["default"].Store(_store_index__WEBPACK_IMPORTED_MODULE_0__["default"]); // filter
 
+ // vue chatscroll
 
+
+Vue.use(vue_chat_scroll__WEBPACK_IMPORTED_MODULE_3___default.a);
+Vue.component("main-app", __webpack_require__(/*! ./components/MainApp.vue */ "./resources/js/components/MainApp.vue")["default"]);
 var app = new Vue({
   el: "#app",
   store: store,
@@ -72926,7 +73032,7 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _ChatApp_vue_vue_type_template_id_1da0bc8e_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./ChatApp.vue?vue&type=template&id=1da0bc8e&scoped=true& */ "./resources/js/components/ChatApp.vue?vue&type=template&id=1da0bc8e&scoped=true&");
+/* harmony import */ var _ChatApp_vue_vue_type_template_id_1da0bc8e___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./ChatApp.vue?vue&type=template&id=1da0bc8e& */ "./resources/js/components/ChatApp.vue?vue&type=template&id=1da0bc8e&");
 /* harmony import */ var _ChatApp_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./ChatApp.vue?vue&type=script&lang=js& */ "./resources/js/components/ChatApp.vue?vue&type=script&lang=js&");
 /* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
 
@@ -72938,11 +73044,11 @@ __webpack_require__.r(__webpack_exports__);
 
 var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
   _ChatApp_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
-  _ChatApp_vue_vue_type_template_id_1da0bc8e_scoped_true___WEBPACK_IMPORTED_MODULE_0__["render"],
-  _ChatApp_vue_vue_type_template_id_1da0bc8e_scoped_true___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  _ChatApp_vue_vue_type_template_id_1da0bc8e___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _ChatApp_vue_vue_type_template_id_1da0bc8e___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
   false,
   null,
-  "1da0bc8e",
+  null,
   null
   
 )
@@ -72968,19 +73074,19 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./resources/js/components/ChatApp.vue?vue&type=template&id=1da0bc8e&scoped=true&":
-/*!****************************************************************************************!*\
-  !*** ./resources/js/components/ChatApp.vue?vue&type=template&id=1da0bc8e&scoped=true& ***!
-  \****************************************************************************************/
+/***/ "./resources/js/components/ChatApp.vue?vue&type=template&id=1da0bc8e&":
+/*!****************************************************************************!*\
+  !*** ./resources/js/components/ChatApp.vue?vue&type=template&id=1da0bc8e& ***!
+  \****************************************************************************/
 /*! exports provided: render, staticRenderFns */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ChatApp_vue_vue_type_template_id_1da0bc8e_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib??vue-loader-options!./ChatApp.vue?vue&type=template&id=1da0bc8e&scoped=true& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/ChatApp.vue?vue&type=template&id=1da0bc8e&scoped=true&");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ChatApp_vue_vue_type_template_id_1da0bc8e_scoped_true___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ChatApp_vue_vue_type_template_id_1da0bc8e___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib??vue-loader-options!./ChatApp.vue?vue&type=template&id=1da0bc8e& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/ChatApp.vue?vue&type=template&id=1da0bc8e&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ChatApp_vue_vue_type_template_id_1da0bc8e___WEBPACK_IMPORTED_MODULE_0__["render"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ChatApp_vue_vue_type_template_id_1da0bc8e_scoped_true___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ChatApp_vue_vue_type_template_id_1da0bc8e___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
 
 
 
