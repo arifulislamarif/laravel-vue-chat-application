@@ -44,4 +44,14 @@ class MessageController extends Controller
 
         abort(404);
    }
+
+   public function sendmessage(Request $request){
+       $message = Message::create([
+           'to' => $request->userid,
+           'from' => Auth::user()->id,
+           'message' => $request->message,
+       ]);
+
+       return $message;
+   }
 }
