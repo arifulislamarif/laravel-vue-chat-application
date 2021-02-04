@@ -2025,6 +2025,13 @@ __webpack_require__.r(__webpack_exports__);
       axios["delete"]("/delete/single/message/".concat(id)).then(function (response) {
         _this2.selectUser(_this2.userMessage.user.id);
       });
+    },
+    deleteAllMessage: function deleteAllMessage() {
+      var _this3 = this;
+
+      axios["delete"]("/delete/all/message/".concat(this.userMessage.user.id)).then(function (response) {
+        _this3.selectUser(_this3.userMessage.user.id);
+      });
     }
   } // created(){
   //     Echo.join(`chat.${roomId}`)

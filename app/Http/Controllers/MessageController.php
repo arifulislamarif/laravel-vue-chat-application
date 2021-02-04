@@ -14,7 +14,8 @@ class MessageController extends Controller
         $this->middleware('auth');
     }
 
-   public function userList(){
+    public function userList()
+    {
         $users = User::latest()->where('id', '!=', Auth::user()->id)->get();
         if (\Request::ajax()) {
             return response()->json([
@@ -23,15 +24,16 @@ class MessageController extends Controller
         }
 
         abort(404);
-   }
+    }
 
-   public function usermessage($id){
+    public function usermessage($id)
+    {
         $user = User::findOrFail($id);
-        $messages = Message::where(function($q) use ($id){
+        $messages = Message::where(function ($q) use ($id) {
             $q->where('from', Auth::user()->id);
             $q->where('to', $id);
             $q->where('type', 0);
-        })->orWhere(function($q) use($id){
+        })->orWhere(function ($q) use ($id) {
             $q->where('from', $id);
             $q->where('to', Auth::user()->id);
             $q->where('type', 1);
@@ -45,37 +47,63 @@ class MessageController extends Controller
         }
 
         abort(404);
-   }
+    }
 
-   public function sendmessage(Request $request){
-       if ($request->ajax()) {
-           $message = Message::create([
-               'to' => $request->userid,
-               'from' => Auth::user()->id,
-               'message' => $request->message,
-               'type' =>  0,
-           ]);
-           $message = Message::create([
-               'to' => $request->userid,
-               'from' => Auth::user()->id,
-               'message' => $request->message,
-               'type' =>  1,
-           ]);
-       }else{
-           abort(404);
-       }
+    public function sendmessage(Request $request)
+    {
+        if ($request->ajax()) {
+            $message = Message::create([
+                'to' => $request->userid,
+                'from' => Auth::user()->id,
+                'message' => $request->message,
+                'type' =>  0,
+            ]);
+            $message = Message::create([
+                'to' => $request->userid,
+                'from' => Auth::user()->id,
+                'message' => $request->message,
+                'type' =>  1,
+            ]);
+        } else {
+            abort(404);
+        }
 
-       return $message;
-   }
+        return $message;
+    }
 
-   public function deleteSingleMessage($id){
+    public function deleteSingleMessage($id)
+    {
         if (\Request::ajax()) {
             Message::findOrFail($id)->delete();
             return response()->json([
                 'message' => 'Message Deleted Successsfully'
             ], 200);
-        }else{
-           abort(404);
+        } else {
+            abort(404);
         }
-   }
+    }
+
+    public function deleteAllMessage($id)
+    {
+        if (\Request::ajax()) {
+            $messages = Message::where(function ($q) use ($id) {
+                $q->where('from', Auth::user()->id);
+                $q->where('to', $id);
+                $q->where('type', 0);
+            })->orWhere(function ($q) use ($id) {
+                $q->where('from', $id);
+                $q->where('to', Auth::user()->id);
+                $q->where('type', 1);
+            })->get();
+
+            foreach ($messages as $message) {
+                Message::findOrFail($message->id)->delete();
+            }
+            return response()->json([
+                'message' => 'All Message Deleted Successsfully'
+            ], 200);
+        } else {
+            abort(404);
+        }
+    }
 }

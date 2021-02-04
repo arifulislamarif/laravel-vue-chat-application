@@ -115,6 +115,12 @@
 
                 })
             },
+            deleteAllMessage(){
+                axios.delete(`/delete/all/message/${this.userMessage.user.id}`)
+                .then(response => {
+                    this.selectUser(this.userMessage.user.id)
+                })
+            },
         },
         // created(){
         //     Echo.join(`chat.${roomId}`)
