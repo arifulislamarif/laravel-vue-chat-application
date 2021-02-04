@@ -93,6 +93,17 @@
                 this.$store.dispatch('userMessage', userId)
             }
         },
-        created(){},
+        created(){
+            Echo.join(`chat.${roomId}`)
+                .here((users) => {
+                    //
+                })
+                .joining((user) => {
+                    console.log(user.name);
+                })
+                .leaving((user) => {
+                    console.log(user.name);
+                });
+        },
     }
 </script>

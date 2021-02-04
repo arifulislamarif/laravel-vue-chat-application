@@ -28,6 +28,7 @@ class MessageFactory extends Factory
             'to' => User::inRandomOrder()->first()->id,
             'from' => User::inRandomOrder()->first()->id,
             'message' => $title,
+            'type' => rand(0,1),
         ];
     }
 }

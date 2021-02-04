@@ -2004,7 +2004,14 @@ __webpack_require__.r(__webpack_exports__);
       this.$store.dispatch('userMessage', userId);
     }
   },
-  created: function created() {}
+  created: function created() {
+    Echo.join("chat.".concat(roomId)).here(function (users) {//
+    }).joining(function (user) {
+      console.log(user.name);
+    }).leaving(function (user) {
+      console.log(user.name);
+    });
+  }
 });
 
 /***/ }),

@@ -30,9 +30,11 @@ class MessageController extends Controller
         $messages = Message::where(function($q) use ($id){
             $q->where('from', Auth::user()->id);
             $q->where('to', $id);
+            $q->where('type', 0);
         })->orWhere(function($q) use($id){
             $q->where('from', $id);
             $q->where('to', Auth::user()->id);
+            $q->where('type', 1);
         })->with('user')->get();
 
         if (\Request::ajax()) {
@@ -46,11 +48,22 @@ class MessageController extends Controller
    }
 
    public function sendmessage(Request $request){
-       $message = Message::create([
-           'to' => $request->userid,
-           'from' => Auth::user()->id,
-           'message' => $request->message,
-       ]);
+       if ($request->ajax()) {
+           $message = Message::create([
+               'to' => $request->userid,
+               'from' => Auth::user()->id,
+               'message' => $request->message,
+               'type' =>  0,
+           ]);
+           $message = Message::create([
+               'to' => $request->userid,
+               'from' => Auth::user()->id,
+               'message' => $request->message,
+               'type' =>  1,
+           ]);
+       }else{
+           abort(404);
+       }
 
        return $message;
    }
