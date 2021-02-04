@@ -1968,6 +1968,22 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -2003,15 +2019,19 @@ __webpack_require__.r(__webpack_exports__);
     selectUser: function selectUser(userId) {
       this.$store.dispatch('userMessage', userId);
     }
-  },
-  created: function created() {
-    Echo.join("chat.".concat(roomId)).here(function (users) {//
-    }).joining(function (user) {
-      console.log(user.name);
-    }).leaving(function (user) {
-      console.log(user.name);
-    });
-  }
+  } // created(){
+  //     Echo.join(`chat.${roomId}`)
+  //         .here((users) => {
+  //             //
+  //         })
+  //         .joining((user) => {
+  //             console.log(user.name);
+  //         })
+  //         .leaving((user) => {
+  //             console.log(user.name);
+  //         });
+  // },
+
 });
 
 /***/ }),
@@ -59355,10 +59375,17 @@ var render = function() {
         _vm._v(" "),
         _c("div", { staticClass: "chat-about" }, [
           _vm.userMessage.user
-            ? _c("div", { staticClass: "chat-with" }, [
-                _vm._v(_vm._s(_vm.userMessage.user.name))
-              ])
+            ? _c(
+                "div",
+                {
+                  staticClass: "chat-with",
+                  staticStyle: { display: "inline-block" }
+                },
+                [_vm._v(_vm._s(_vm.userMessage.user.name))]
+              )
             : _vm._e(),
+          _vm._v(" "),
+          _vm._m(2),
           _vm._v(" "),
           _c("div", { staticClass: "chat-num-messages" }, [
             _vm._v("already 1 902 messages")
@@ -59397,7 +59424,9 @@ var render = function() {
                       _vm._v(_vm._s(message.user.name))
                     ]),
                     _vm._v(" "),
-                    _c("i", { staticClass: "fa fa-circle me" })
+                    _c("i", { staticClass: "fa fa-circle me" }),
+                    _vm._v(" "),
+                    _vm._m(3, true)
                   ]
                 ),
                 _vm._v(" "),
@@ -59490,6 +59519,81 @@ var staticRenderFns = [
       _c("i", { staticClass: "fa fa-circle online" }),
       _vm._v(" online\n          ")
     ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "div",
+      { staticClass: "dropdown", staticStyle: { display: "inline-block" } },
+      [
+        _c(
+          "a",
+          {
+            staticClass: "btn btn-primary btn-sm",
+            attrs: {
+              type: "button",
+              id: "dropdownMenuButton",
+              "data-toggle": "dropdown",
+              "aria-haspopup": "true",
+              "aria-expanded": "false"
+            }
+          },
+          [_vm._v("\n                  ...\n              ")]
+        ),
+        _vm._v(" "),
+        _c(
+          "div",
+          {
+            staticClass: "dropdown-menu",
+            attrs: { "aria-labelledby": "dropdownMenuButton" }
+          },
+          [
+            _c("a", { staticClass: "dropdown-item", attrs: { href: "#" } }, [
+              _vm._v("Delete All Messages")
+            ])
+          ]
+        )
+      ]
+    )
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "div",
+      { staticClass: "dropdown", staticStyle: { display: "inline-block" } },
+      [
+        _c(
+          "a",
+          {
+            attrs: {
+              type: "button",
+              id: "dropdownMenuButton",
+              "data-toggle": "dropdown",
+              "aria-haspopup": "true",
+              "aria-expanded": "false"
+            }
+          },
+          [_vm._v("\n                      ...\n                  ")]
+        ),
+        _vm._v(" "),
+        _c(
+          "div",
+          {
+            staticClass: "dropdown-menu",
+            attrs: { "aria-labelledby": "dropdownMenuButton" }
+          },
+          [
+            _c("a", { staticClass: "dropdown-item", attrs: { href: "#" } }, [
+              _vm._v("Delete")
+            ])
+          ]
+        )
+      ]
+    )
   }
 ]
 render._withStripped = true
