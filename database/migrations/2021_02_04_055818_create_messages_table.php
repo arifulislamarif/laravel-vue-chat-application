@@ -18,7 +18,7 @@ class CreateMessagesTable extends Migration
             $table->unsignedBigInteger('from')->comment('Own ID'); // own id
             $table->unsignedBigInteger('to')->comment('Other ID'); // own id
             $table->longText('message');
-            $table->boolean('type');
+            $table->boolean('type')->nullable();
             $table->timestamps();
         });
     }

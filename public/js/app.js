@@ -1980,6 +1980,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -1992,6 +1993,9 @@ __webpack_require__.r(__webpack_exports__);
   computed: {
     userList: function userList() {
       return this.$store.getters.userList;
+    },
+    userMessage: function userMessage() {
+      return this.$store.getters.userMessage;
     }
   },
   methods: {
@@ -2003,6 +2007,9 @@ __webpack_require__.r(__webpack_exports__);
       }
 
       alert();
+    },
+    selectUser: function selectUser(userId) {
+      this.$store.dispatch('userMessage', userId);
     }
   },
   created: function created() {}
@@ -37633,24 +37640,37 @@ var render = function() {
         "ul",
         { staticClass: "list" },
         _vm._l(_vm.userList, function(user, index) {
-          return _c("li", { key: index, staticClass: "clearfix" }, [
-            _c("img", {
-              staticStyle: { "border-radius": "30px" },
-              attrs: {
-                height: "55px",
-                width: "55px",
-                src:
-                  "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTpCKq1XnPYYDaUIlwlsvmLPZ-9-rdK28RToA&usqp=CAU",
-                alt: "avatar"
+          return _c(
+            "li",
+            {
+              key: index,
+              staticClass: "clearfix",
+              on: {
+                click: function($event) {
+                  $event.preventDefault()
+                  return _vm.selectUser(user.id)
+                }
               }
-            }),
-            _vm._v(" "),
-            _c("div", { staticClass: "about" }, [
-              _c("div", { staticClass: "name" }, [_vm._v(_vm._s(user.name))]),
+            },
+            [
+              _c("img", {
+                staticStyle: { "border-radius": "30px" },
+                attrs: {
+                  height: "55px",
+                  width: "55px",
+                  src:
+                    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTpCKq1XnPYYDaUIlwlsvmLPZ-9-rdK28RToA&usqp=CAU",
+                  alt: "avatar"
+                }
+              }),
               _vm._v(" "),
-              _vm._m(1, true)
-            ])
-          ])
+              _c("div", { staticClass: "about" }, [
+                _c("div", { staticClass: "name" }, [_vm._v(_vm._s(user.name))]),
+                _vm._v(" "),
+                _vm._m(1, true)
+              ])
+            ]
+          )
         }),
         0
       )
@@ -37659,7 +37679,33 @@ var render = function() {
     _c("div", { staticClass: "chat" }, [
       _vm._m(2),
       _vm._v(" "),
-      _vm._m(3),
+      _c("div", { staticClass: "chat-history" }, [
+        _c(
+          "ul",
+          _vm._l(_vm.userMessage, function(message, index) {
+            return _c("li", { key: index, staticClass: "clearfix" }, [
+              _c("div", { staticClass: "message-data align-right" }, [
+                _c("span", { staticClass: "message-data-time" }, [
+                  _vm._v("10:10 AM, Today")
+                ]),
+                _vm._v("    \n            "),
+                _c("span", { staticClass: "message-data-name" }, [
+                  _vm._v(_vm._s(message.user.name))
+                ]),
+                _vm._v(" "),
+                _c("i", { staticClass: "fa fa-circle me" })
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "message other-message float-right" }, [
+                _vm._v(
+                  "\n            " + _vm._s(message.message) + "\n          "
+                )
+              ])
+            ])
+          }),
+          0
+        )
+      ]),
       _vm._v(" "),
       _c("div", { staticClass: "chat-message clearfix" }, [
         _c("textarea", {
@@ -37754,51 +37800,6 @@ var staticRenderFns = [
       ]),
       _vm._v(" "),
       _c("i", { staticClass: "fa fa-star" })
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "chat-history" }, [
-      _c("ul", [
-        _c("li", { staticClass: "clearfix" }, [
-          _c("div", { staticClass: "message-data align-right" }, [
-            _c("span", { staticClass: "message-data-time" }, [
-              _vm._v("10:10 AM, Today")
-            ]),
-            _vm._v("    \n            "),
-            _c("span", { staticClass: "message-data-name" }, [_vm._v("Olia")]),
-            _vm._v(" "),
-            _c("i", { staticClass: "fa fa-circle me" })
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "message other-message float-right" }, [
-            _vm._v(
-              "\n            Hi Vincent, how are you? How is the project coming along?\n          "
-            )
-          ])
-        ]),
-        _vm._v(" "),
-        _c("li", [
-          _c("div", { staticClass: "message-data" }, [
-            _c("span", { staticClass: "message-data-name" }, [
-              _c("i", { staticClass: "fa fa-circle online" }),
-              _vm._v(" Vincent")
-            ]),
-            _vm._v(" "),
-            _c("span", { staticClass: "message-data-time" }, [
-              _vm._v("10:12 AM, Today")
-            ])
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "message my-message" }, [
-            _vm._v(
-              "\n            Are we meeting today? Project has been already finished and I have results to show you.\n          "
-            )
-          ])
-        ])
-      ])
     ])
   }
 ]
@@ -51478,23 +51479,36 @@ __webpack_require__.r(__webpack_exports__);
 __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ __webpack_exports__["default"] = ({
   state: {
-    userList: []
+    userList: [],
+    userMessage: []
   },
   getters: {
     userList: function userList(state) {
       return state.userList;
+    },
+    userMessage: function userMessage(state) {
+      return state.userMessage;
     }
   },
   actions: {
     userList: function userList(context) {
-      axios.get('/userlist').then(function (response) {
+      axios.get("/userlist").then(function (response) {
         context.commit("userlist", response.data.users);
+      });
+    },
+    userMessage: function userMessage(context, payload) {
+      axios.get("/usermessage/".concat(payload)).then(function (response) {
+        console.log(response.data.messages);
+        context.commit("usermessage", response.data.messages);
       });
     }
   },
   mutations: {
     userlist: function userlist(state, payload) {
       return state.userList = payload;
+    },
+    usermessage: function usermessage(state, payload) {
+      return state.userMessage = payload;
     }
   }
 });

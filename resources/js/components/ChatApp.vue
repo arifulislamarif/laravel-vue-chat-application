@@ -6,7 +6,7 @@
         <i class="fa fa-search"></i>
       </div>
       <ul class="list" >
-        <li class="clearfix" v-for="(user,index) in userList" :key="index">
+        <li @click.prevent="selectUser(user.id)" class="clearfix" v-for="(user,index) in userList" :key="index">
         <img height="55px" width="55px" style="border-radius:30px" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTpCKq1XnPYYDaUIlwlsvmLPZ-9-rdK28RToA&usqp=CAU" alt="avatar" />
           <div class="about">
             <div class="name">{{ user.name }}</div>
@@ -31,18 +31,19 @@
 
       <div class="chat-history">
         <ul>
-          <li class="clearfix">
+
+          <li class="clearfix" v-for="(message, index) in userMessage" :key="index">
             <div class="message-data align-right">
               <span class="message-data-time" >10:10 AM, Today</span> &nbsp; &nbsp;
-              <span class="message-data-name" >Olia</span> <i class="fa fa-circle me"></i>
+              <span class="message-data-name" >{{ message.user.name }}</span> <i class="fa fa-circle me"></i>
 
             </div>
             <div class="message other-message float-right">
-              Hi Vincent, how are you? How is the project coming along?
+              {{ message.message }}
             </div>
           </li>
 
-          <li>
+          <!-- <li>
             <div class="message-data">
               <span class="message-data-name"><i class="fa fa-circle online"></i> Vincent</span>
               <span class="message-data-time">10:12 AM, Today</span>
@@ -50,7 +51,7 @@
             <div class="message my-message">
               Are we meeting today? Project has been already finished and I have results to show you.
             </div>
-          </li>
+          </li> -->
 
         </ul>
 
@@ -83,16 +84,22 @@
         computed: {
             userList(){
                return this.$store.getters.userList
+            },
+            userMessage(){
+               return this.$store.getters.userMessage
             }
         },
         methods: {
             sendMessage(){
                 if (this.message != '') {
                     axios.post('/sendmessage',{
-                        message: this.message 
+                        message: this.message
                     })
                 }
                 alert()
+            },
+            selectUser(userId){
+                this.$store.dispatch('userMessage', userId)
             }
         },
         created(){},
