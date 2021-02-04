@@ -50,6 +50,7 @@ class DatabaseSeeder extends Seeder
 
         ]);
 
-        \App\Models\User::factory(5)->create();
+        // \App\Models\User::factory(2)->create();
+        \App\Models\Message::factory(100)->create();
     }
 }

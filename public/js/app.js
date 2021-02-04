@@ -1968,7 +1968,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -59282,7 +59281,6 @@ var render = function() {
                     _vm._v(_vm._s(_vm._f("timeformat")(message.created_at)))
                   ]),
                   _vm._v("    \n              "),
-                  _vm._v(" "),
                   _c("span", { staticClass: "message-data-name" }, [
                     _vm._v(_vm._s(message.user.name))
                   ]),
@@ -73063,7 +73061,7 @@ window.Vue = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.
 
 window.moment = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js");
 Vue.filter('timeformat', function (value) {
-  return moment(value).format("MMMM Do YYYY, h:mm:ss a");
+  return moment(value).calendar(); // return moment(value).format("MMMM Do YYYY, h:mm:ss a");
 });
 
 /***/ }),

@@ -3,5 +3,6 @@ window.Vue = require("vue");
 window.moment = require("moment");
 
 Vue.filter('timeformat', function(value){
-    return moment(value).format("MMMM Do YYYY, h:mm:ss a");
+    return moment(value).calendar();
+    // return moment(value).format("MMMM Do YYYY, h:mm:ss a");
 })

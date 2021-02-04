@@ -34,7 +34,6 @@
           <li class="clearfix" v-for="(message, index) in userMessage.messages" :key="index">
             <div :class="`message-data ${userMessage.user.id == message.user.id ? 'align-right':''}`">
                 <span class="message-data-time" >{{ message.created_at | timeformat }}</span> &nbsp; &nbsp;
-                <!-- <span class="message-data-time" >10:10 AM, Today</span> &nbsp; &nbsp; -->
                 <span class="message-data-name" >{{ message.user.name }}</span> <i class="fa fa-circle me"></i>
             </div>
             <div :class="`message ${userMessage.user.id == message.user.id ? 'other-message float-right':'my-message'}`">
