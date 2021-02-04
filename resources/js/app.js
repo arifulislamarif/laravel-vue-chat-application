@@ -8,10 +8,11 @@ import StoreApp from './store/index'
 import Vuex from 'vuex'
 const store = new Vuex.Store(StoreApp);
 
-// Momentjs
-window.moment = require("moment");
+// filter
+import filter from './filter'
 
 const app = new Vue({
     el: "#app",
-    store
+    store,
+    filter
 });

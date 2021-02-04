@@ -1968,6 +1968,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -59278,9 +59279,10 @@ var render = function() {
                 },
                 [
                   _c("span", { staticClass: "message-data-time" }, [
-                    _vm._v("10:10 AM, Today")
+                    _vm._v(_vm._s(_vm._f("timeformat")(message.created_at)))
                   ]),
                   _vm._v("    \n              "),
+                  _vm._v(" "),
                   _c("span", { staticClass: "message-data-name" }, [
                     _vm._v(_vm._s(message.user.name))
                   ]),
@@ -72847,6 +72849,8 @@ module.exports = function(module) {
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _store_index__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./store/index */ "./resources/js/store/index.js");
 /* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+/* harmony import */ var _filter__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./filter */ "./resources/js/filter.js");
+/* harmony import */ var _filter__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_filter__WEBPACK_IMPORTED_MODULE_2__);
 __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
 
 window.Vue = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
@@ -72854,12 +72858,13 @@ Vue.component('main-app', __webpack_require__(/*! ./components/MainApp.vue */ ".
 
 
 
-var store = new vuex__WEBPACK_IMPORTED_MODULE_1__["default"].Store(_store_index__WEBPACK_IMPORTED_MODULE_0__["default"]); // Momentjs
+var store = new vuex__WEBPACK_IMPORTED_MODULE_1__["default"].Store(_store_index__WEBPACK_IMPORTED_MODULE_0__["default"]); // filter
 
-window.moment = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js");
+
 var app = new Vue({
   el: "#app",
-  store: store
+  store: store,
+  filter: _filter__WEBPACK_IMPORTED_MODULE_2___default.a
 });
 
 /***/ }),
@@ -73044,6 +73049,22 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_MainApp_vue_vue_type_template_id_736a0b0d___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
 
 
+
+/***/ }),
+
+/***/ "./resources/js/filter.js":
+/*!********************************!*\
+  !*** ./resources/js/filter.js ***!
+  \********************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+window.Vue = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js"); // moment js
+
+window.moment = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js");
+Vue.filter('timeformat', function (value) {
+  return moment(value).format("MMMM Do YYYY, h:mm:ss a");
+});
 
 /***/ }),
 
