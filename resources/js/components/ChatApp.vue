@@ -7,7 +7,7 @@
       </div>
       <ul class="list" >
         <li class="clearfix" v-for="(user,index) in userList" :key="index">
-          <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/195612/chat_avatar_01.jpg" alt="avatar" />
+        <img height="55px" width="55px" style="border-radius:30px" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTpCKq1XnPYYDaUIlwlsvmLPZ-9-rdK28RToA&usqp=CAU" alt="avatar" />
           <div class="about">
             <div class="name">{{ user.name }}</div>
             <div class="status">
@@ -20,7 +20,7 @@
 
     <div class="chat">
       <div class="chat-header clearfix">
-        <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/195612/chat_avatar_01_green.jpg" alt="avatar" />
+        <img height="55px" width="55px" style="border-radius:30px" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTpCKq1XnPYYDaUIlwlsvmLPZ-9-rdK28RToA&usqp=CAU" alt="avatar" />
 
         <div class="chat-about">
           <div class="chat-with">Chat with Vincent Porter</div>

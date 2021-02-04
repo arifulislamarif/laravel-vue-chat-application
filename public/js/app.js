@@ -37654,9 +37654,12 @@ var render = function() {
         _vm._l(_vm.userList, function(user, index) {
           return _c("li", { key: index, staticClass: "clearfix" }, [
             _c("img", {
+              staticStyle: { "border-radius": "30px" },
               attrs: {
+                height: "55px",
+                width: "55px",
                 src:
-                  "https://s3-us-west-2.amazonaws.com/s.cdpn.io/195612/chat_avatar_01.jpg",
+                  "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTpCKq1XnPYYDaUIlwlsvmLPZ-9-rdK28RToA&usqp=CAU",
                 alt: "avatar"
               }
             }),
@@ -37702,9 +37705,12 @@ var staticRenderFns = [
     return _c("div", { staticClass: "chat" }, [
       _c("div", { staticClass: "chat-header clearfix" }, [
         _c("img", {
+          staticStyle: { "border-radius": "30px" },
           attrs: {
+            height: "55px",
+            width: "55px",
             src:
-              "https://s3-us-west-2.amazonaws.com/s.cdpn.io/195612/chat_avatar_01_green.jpg",
+              "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTpCKq1XnPYYDaUIlwlsvmLPZ-9-rdK28RToA&usqp=CAU",
             alt: "avatar"
           }
         }),
