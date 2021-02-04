@@ -49886,8 +49886,8 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! C:\Users\Arif\Desktop\laravel8-vue-auth\resources\js\app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! C:\Users\Arif\Desktop\laravel8-vue-auth\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! C:\Users\Arif\Desktop\laravel-vue-chat\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! C:\Users\Arif\Desktop\laravel-vue-chat\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })
