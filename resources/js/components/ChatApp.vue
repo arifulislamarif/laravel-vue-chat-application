@@ -29,7 +29,7 @@
                     ...
                 </a>
                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                    <a class="dropdown-item" href="#">Delete All Messages</a>
+                    <a class="dropdown-item" @click.prevent="deleteAllMessage">Delete All Messages</a>
                 </div>
             </div>
           <div class="chat-num-messages">already 1 902 messages</div>
@@ -48,7 +48,7 @@
                         ...
                     </a>
                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                        <a class="dropdown-item" href="#">Delete</a>
+                        <a class="dropdown-item" @click.prevent="deleteSingleMessage(message.id)" style="cursor:pointer">Delete</a>
                     </div>
                 </div>
             </div>
@@ -66,7 +66,7 @@
         <i class="fa fa-file-o"></i> &nbsp;&nbsp;&nbsp;
         <i class="fa fa-file-image-o"></i>
 
-        <button>Send</button>
+        <button @click.prevent="sendMessage">Send</button>
 
       </div> <!-- end chat-message -->
 
@@ -107,7 +107,14 @@
             },
             selectUser(userId){
                 this.$store.dispatch('userMessage', userId)
-            }
+            },
+            deleteSingleMessage(id){
+                axios.delete(`/delete/single/message/${id}`)
+                .then(response => {
+                    this.selectUser(this.userMessage.user.id)
+
+                })
+            },
         },
         // created(){
         //     Echo.join(`chat.${roomId}`)

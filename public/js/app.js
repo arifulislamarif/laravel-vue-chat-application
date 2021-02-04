@@ -2018,6 +2018,13 @@ __webpack_require__.r(__webpack_exports__);
     },
     selectUser: function selectUser(userId) {
       this.$store.dispatch('userMessage', userId);
+    },
+    deleteSingleMessage: function deleteSingleMessage(id) {
+      var _this2 = this;
+
+      axios["delete"]("/delete/single/message/".concat(id)).then(function (response) {
+        _this2.selectUser(_this2.userMessage.user.id);
+      });
     }
   } // created(){
   //     Echo.join(`chat.${roomId}`)
@@ -59385,7 +59392,52 @@ var render = function() {
               )
             : _vm._e(),
           _vm._v(" "),
-          _vm._m(2),
+          _c(
+            "div",
+            {
+              staticClass: "dropdown",
+              staticStyle: { display: "inline-block" }
+            },
+            [
+              _c(
+                "a",
+                {
+                  staticClass: "btn btn-primary btn-sm",
+                  attrs: {
+                    type: "button",
+                    id: "dropdownMenuButton",
+                    "data-toggle": "dropdown",
+                    "aria-haspopup": "true",
+                    "aria-expanded": "false"
+                  }
+                },
+                [_vm._v("\n                  ...\n              ")]
+              ),
+              _vm._v(" "),
+              _c(
+                "div",
+                {
+                  staticClass: "dropdown-menu",
+                  attrs: { "aria-labelledby": "dropdownMenuButton" }
+                },
+                [
+                  _c(
+                    "a",
+                    {
+                      staticClass: "dropdown-item",
+                      on: {
+                        click: function($event) {
+                          $event.preventDefault()
+                          return _vm.deleteAllMessage($event)
+                        }
+                      }
+                    },
+                    [_vm._v("Delete All Messages")]
+                  )
+                ]
+              )
+            ]
+          ),
           _vm._v(" "),
           _c("div", { staticClass: "chat-num-messages" }, [
             _vm._v("already 1 902 messages")
@@ -59426,7 +59478,56 @@ var render = function() {
                     _vm._v(" "),
                     _c("i", { staticClass: "fa fa-circle me" }),
                     _vm._v(" "),
-                    _vm._m(3, true)
+                    _c(
+                      "div",
+                      {
+                        staticClass: "dropdown",
+                        staticStyle: { display: "inline-block" }
+                      },
+                      [
+                        _c(
+                          "a",
+                          {
+                            attrs: {
+                              type: "button",
+                              id: "dropdownMenuButton",
+                              "data-toggle": "dropdown",
+                              "aria-haspopup": "true",
+                              "aria-expanded": "false"
+                            }
+                          },
+                          [
+                            _vm._v(
+                              "\n                      ...\n                  "
+                            )
+                          ]
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "div",
+                          {
+                            staticClass: "dropdown-menu",
+                            attrs: { "aria-labelledby": "dropdownMenuButton" }
+                          },
+                          [
+                            _c(
+                              "a",
+                              {
+                                staticClass: "dropdown-item",
+                                staticStyle: { cursor: "pointer" },
+                                on: {
+                                  click: function($event) {
+                                    $event.preventDefault()
+                                    return _vm.deleteSingleMessage(message.id)
+                                  }
+                                }
+                              },
+                              [_vm._v("Delete")]
+                            )
+                          ]
+                        )
+                      ]
+                    )
                   ]
                 ),
                 _vm._v(" "),
@@ -59495,7 +59596,18 @@ var render = function() {
         _vm._v("    \n      "),
         _c("i", { staticClass: "fa fa-file-image-o" }),
         _vm._v(" "),
-        _c("button", [_vm._v("Send")])
+        _c(
+          "button",
+          {
+            on: {
+              click: function($event) {
+                $event.preventDefault()
+                return _vm.sendMessage($event)
+              }
+            }
+          },
+          [_vm._v("Send")]
+        )
       ])
     ])
   ])
@@ -59519,81 +59631,6 @@ var staticRenderFns = [
       _c("i", { staticClass: "fa fa-circle online" }),
       _vm._v(" online\n          ")
     ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c(
-      "div",
-      { staticClass: "dropdown", staticStyle: { display: "inline-block" } },
-      [
-        _c(
-          "a",
-          {
-            staticClass: "btn btn-primary btn-sm",
-            attrs: {
-              type: "button",
-              id: "dropdownMenuButton",
-              "data-toggle": "dropdown",
-              "aria-haspopup": "true",
-              "aria-expanded": "false"
-            }
-          },
-          [_vm._v("\n                  ...\n              ")]
-        ),
-        _vm._v(" "),
-        _c(
-          "div",
-          {
-            staticClass: "dropdown-menu",
-            attrs: { "aria-labelledby": "dropdownMenuButton" }
-          },
-          [
-            _c("a", { staticClass: "dropdown-item", attrs: { href: "#" } }, [
-              _vm._v("Delete All Messages")
-            ])
-          ]
-        )
-      ]
-    )
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c(
-      "div",
-      { staticClass: "dropdown", staticStyle: { display: "inline-block" } },
-      [
-        _c(
-          "a",
-          {
-            attrs: {
-              type: "button",
-              id: "dropdownMenuButton",
-              "data-toggle": "dropdown",
-              "aria-haspopup": "true",
-              "aria-expanded": "false"
-            }
-          },
-          [_vm._v("\n                      ...\n                  ")]
-        ),
-        _vm._v(" "),
-        _c(
-          "div",
-          {
-            staticClass: "dropdown-menu",
-            attrs: { "aria-labelledby": "dropdownMenuButton" }
-          },
-          [
-            _c("a", { staticClass: "dropdown-item", attrs: { href: "#" } }, [
-              _vm._v("Delete")
-            ])
-          ]
-        )
-      ]
-    )
   }
 ]
 render._withStripped = true
