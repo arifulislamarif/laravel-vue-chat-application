@@ -1980,7 +1980,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -37713,7 +37712,7 @@ var render = function() {
                 _c("span", { staticClass: "message-data-time" }, [
                   _vm._v("10:10 AM, Today")
                 ]),
-                _vm._v("    \n            "),
+                _vm._v("    \n              "),
                 _c("span", { staticClass: "message-data-name" }, [
                   _vm._v(_vm._s(message.user.name))
                 ]),
@@ -37721,11 +37720,23 @@ var render = function() {
                 _c("i", { staticClass: "fa fa-circle me" })
               ]),
               _vm._v(" "),
-              _c("div", { staticClass: "message other-message float-right" }, [
-                _vm._v(
-                  "\n            " + _vm._s(message.message) + "\n          "
-                )
-              ])
+              _c(
+                "div",
+                {
+                  class:
+                    "message " +
+                    (_vm.userMessage.user.id == message.user.id
+                      ? "other-message float-right"
+                      : "my-message")
+                },
+                [
+                  _vm._v(
+                    "\n              " +
+                      _vm._s(message.message) +
+                      "\n          "
+                  )
+                ]
+              )
             ])
           }),
           0
