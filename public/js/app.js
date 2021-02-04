@@ -2101,7 +2101,17 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-/* harmony default export */ __webpack_exports__["default"] = ({});
+/* harmony default export */ __webpack_exports__["default"] = ({
+  data: function data() {
+    return {};
+  },
+  mounted: function mounted() {
+    this.$store.dispatch('userList');
+  },
+  computed: {},
+  methods: {},
+  created: function created() {}
+});
 
 /***/ }),
 
@@ -51756,8 +51766,16 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ __webpack_exports__["default"] = ({
   state: {},
   getters: {},
-  actions: {},
-  mutations: {}
+  actions: {
+    userList: function userList(context) {
+      axios.get('/userlist').then(function (response) {
+        context.commit("userlist");
+      });
+    }
+  },
+  mutations: {
+    userlist: function userlist(state, payload) {}
+  }
 });
 
 /***/ }),

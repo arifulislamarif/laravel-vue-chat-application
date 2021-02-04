@@ -193,7 +193,21 @@
 
 <script>
     export default {
+        data() {
+            return {
 
+            }
+        },
+        mounted(){
+            this.$store.dispatch('userList');
+        },
+        computed: {
+
+        },
+        methods: {
+
+            },
+        created(){},
     }
 </script>
 
