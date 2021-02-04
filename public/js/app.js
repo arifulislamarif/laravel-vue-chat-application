@@ -37708,17 +37708,27 @@ var render = function() {
           "ul",
           _vm._l(_vm.userMessage.messages, function(message, index) {
             return _c("li", { key: index, staticClass: "clearfix" }, [
-              _c("div", { staticClass: "message-data align-right" }, [
-                _c("span", { staticClass: "message-data-time" }, [
-                  _vm._v("10:10 AM, Today")
-                ]),
-                _vm._v("    \n              "),
-                _c("span", { staticClass: "message-data-name" }, [
-                  _vm._v(_vm._s(message.user.name))
-                ]),
-                _vm._v(" "),
-                _c("i", { staticClass: "fa fa-circle me" })
-              ]),
+              _c(
+                "div",
+                {
+                  class:
+                    "message-data " +
+                    (_vm.userMessage.user.id == message.user.id
+                      ? "align-right"
+                      : "")
+                },
+                [
+                  _c("span", { staticClass: "message-data-time" }, [
+                    _vm._v("10:10 AM, Today")
+                  ]),
+                  _vm._v("    \n              "),
+                  _c("span", { staticClass: "message-data-name" }, [
+                    _vm._v(_vm._s(message.user.name))
+                  ]),
+                  _vm._v(" "),
+                  _c("i", { staticClass: "fa fa-circle me" })
+                ]
+              ),
               _vm._v(" "),
               _c(
                 "div",
