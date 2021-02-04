@@ -1,6 +1,6 @@
 <template>
-      <div class="container clearfix">
-    <div class="people-list" id="people-list">
+  <div class="container-chat clearfix">
+        <div class="people-list" id="people-list">
       <div class="search">
         <input type="text" placeholder="search" />
         <i class="fa fa-search"></i>
@@ -188,7 +188,6 @@
       </div> <!-- end chat-message -->
 
     </div> <!-- end chat -->
-
   </div> <!-- end container -->
 </template>
 

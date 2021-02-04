@@ -10909,10 +10909,19 @@ a.text-dark:focus {
   box-sizing: border-box;
 }
 
-.container {
+li {
+  list-style: none;
+}
+
+.container-chat {
   margin: 0 auto;
-  background: #444753;
+  width: 950px;
+  background: #444953;
   border-radius: 5px;
+}
+
+.name {
+  color: white;
 }
 
 .people-list {
@@ -10966,12 +10975,12 @@ a.text-dark:focus {
 }
 
 .chat {
-  width: 790px;
+  width: 690px;
   float: left;
   background: #F2F5F8;
   border-top-right-radius: 5px;
   border-bottom-right-radius: 5px;
-  color: #434651;
+  color: #8000e2;
 }
 
 .chat .chat-header {

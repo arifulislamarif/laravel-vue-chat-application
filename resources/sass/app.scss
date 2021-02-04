@@ -20,12 +20,19 @@ $gray: #92959E;
     box-sizing: border-box;
 }
 
-.container {
-    margin: 0 auto;
-    background: #444753;
-    border-radius: 5px;
+li{
+    list-style: none;
 }
 
+.container-chat {
+    margin: 0 auto;
+    width: 950px;
+    background: #444953;
+    border-radius: 5px;
+}
+.name{
+    color: white;
+}
 .people-list {
     width: 260px;
     float: left;
@@ -81,13 +88,13 @@ $gray: #92959E;
 }
 
 .chat {
-    width: 790px;
+    width: 690px;
     float: left;
     background: #F2F5F8;
     border-top-right-radius: 5px;
     border-bottom-right-radius: 5px;
 
-    color: #434651;
+    color: #8000e2;
 
     .chat-header {
         padding: 20px;
