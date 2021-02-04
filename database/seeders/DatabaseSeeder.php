@@ -23,6 +23,33 @@ class DatabaseSeeder extends Seeder
             'remember_token' => Str::random(10),
 
         ]);
+
+        User::create([
+            'name' => 'Admin',
+            'email' => 'admin@gmail.com',
+            'password' => bcrypt(12345678),
+            'email_verified_at' => now(),
+            'remember_token' => Str::random(10),
+        ]);
+
+        User::create([
+            'name' => 'Student',
+            'email' => 'student@gmail.com',
+            'password' => bcrypt(12345678),
+            'email_verified_at' => now(),
+            'remember_token' => Str::random(10),
+
+        ]);
+
+        User::create([
+            'name' => 'Teacher',
+            'email' => 'teacher@gmail.com',
+            'password' => bcrypt(12345678),
+            'email_verified_at' => now(),
+            'remember_token' => Str::random(10),
+
+        ]);
+
         \App\Models\User::factory(5)->create();
     }
 }

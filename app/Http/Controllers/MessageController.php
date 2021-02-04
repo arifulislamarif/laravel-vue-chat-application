@@ -15,8 +15,12 @@ class MessageController extends Controller
 
    public function userList(){
         $users = User::latest()->get();
-        return response()->json([
-            'users' => $users
-        ], 200);
+        if (\Request::ajax()) {
+            return response()->json([
+                'users' => $users
+            ], 200);
+        }
+
+        abort(404);
    }
 }

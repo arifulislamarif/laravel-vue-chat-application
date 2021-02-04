@@ -10915,7 +10915,7 @@ li {
 
 .container-chat {
   margin: 0 auto;
-  width: 950px;
+  width: 1100px;
   background: #444953;
   border-radius: 5px;
 }
@@ -10925,7 +10925,7 @@ li {
 }
 
 .people-list {
-  width: 260px;
+  width: 360px;
   float: left;
 }
 
@@ -10951,10 +10951,12 @@ li {
 .people-list ul {
   padding: 20px;
   height: 770px;
+  overflow-y: scroll;
 }
 
 .people-list ul li {
   padding-bottom: 20px;
+  cursor: pointer;
 }
 
 .people-list img {
@@ -10975,7 +10977,7 @@ li {
 }
 
 .chat {
-  width: 690px;
+  width: 740px;
   float: left;
   background: #F2F5F8;
   border-top-right-radius: 5px;
