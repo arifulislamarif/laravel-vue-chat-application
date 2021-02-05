@@ -1984,6 +1984,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -1994,9 +1995,7 @@ __webpack_require__.r(__webpack_exports__);
     var _this = this;
 
     Echo["private"]("chat.".concat(authuser.id)).listen('MessageSend', function (e) {
-      _this.selectUser(e.message.from); // this.selectUser(this.userMessage.user.id)
-      // console.log(e.message.to);
-
+      _this.selectUser(e.message.from);
     });
     this.$store.dispatch('userList');
   },
@@ -65687,41 +65686,50 @@ var render = function() {
       ),
       _vm._v(" "),
       _c("div", { staticClass: "chat-message clearfix" }, [
-        _c("textarea", {
-          directives: [
-            {
-              name: "model",
-              rawName: "v-model",
-              value: _vm.message,
-              expression: "message"
-            }
-          ],
-          attrs: {
-            name: "message-to-send",
-            id: "message-to-send",
-            placeholder: "Type your message",
-            rows: "3"
-          },
-          domProps: { value: _vm.message },
-          on: {
-            keypress: function($event) {
-              if (
-                !$event.type.indexOf("key") &&
-                _vm._k($event.keyCode, "enter", 13, $event.key, "Enter")
-              ) {
-                return null
+        _vm.userMessage.user
+          ? _c("textarea", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.message,
+                  expression: "message"
+                }
+              ],
+              attrs: {
+                name: "message-to-send",
+                id: "message-to-send",
+                placeholder: "Type your message",
+                rows: "3"
+              },
+              domProps: { value: _vm.message },
+              on: {
+                keypress: function($event) {
+                  if (
+                    !$event.type.indexOf("key") &&
+                    _vm._k($event.keyCode, "enter", 13, $event.key, "Enter")
+                  ) {
+                    return null
+                  }
+                  $event.preventDefault()
+                  return _vm.sendMessage($event)
+                },
+                input: function($event) {
+                  if ($event.target.composing) {
+                    return
+                  }
+                  _vm.message = $event.target.value
+                }
               }
-              $event.preventDefault()
-              return _vm.sendMessage($event)
-            },
-            input: function($event) {
-              if ($event.target.composing) {
-                return
+            })
+          : _c("textarea", {
+              attrs: {
+                disabled: "",
+                id: "message-to-send",
+                placeholder: "Type your message",
+                rows: "3"
               }
-              _vm.message = $event.target.value
-            }
-          }
-        }),
+            }),
         _vm._v(" "),
         _c("i", { staticClass: "fa fa-file-o" }),
         _vm._v("    \n      "),
