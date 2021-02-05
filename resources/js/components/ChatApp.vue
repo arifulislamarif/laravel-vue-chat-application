@@ -10,8 +10,11 @@
         <img height="55px" width="55px" style="border-radius:30px" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTpCKq1XnPYYDaUIlwlsvmLPZ-9-rdK28RToA&usqp=CAU" alt="avatar" />
           <div class="about">
             <div class="name">{{ user.name }}</div>
-            <div class="status">
-              <i class="fa fa-circle online"></i> online
+            <div v-if="onlineUser(user.id)" class="status" style="color:white">
+                <i class="fa fa-circle online"></i> online
+            </div>
+            <div v-else class="status" style="color:white">
+                <i class="fa fa-circle offline"></i> offline
             </div>
           </div>
         </li>
@@ -77,11 +80,13 @@
 </template>
 
 <script>
+    import _ from 'lodash'
     export default {
         data() {
             return {
                 message: '',
-                typing: ''
+                typing: '',
+                users: ''
             }
         },
         mounted(){
@@ -147,18 +152,22 @@
                     'userId': userId
                 });
             },
+            onlineUser(userId){
+                return _.find(this.users, {'id': userId});
+            }
         },
-        // created(){
-        //     Echo.join(`chat.${roomId}`)
-        //         .here((users) => {
-        //             //
-        //         })
-        //         .joining((user) => {
-        //             console.log(user.name);
-        //         })
-        //         .leaving((user) => {
-        //             console.log(user.name);
-        //         });
-        // },
+        created(){
+            Echo.join(`liveUser`)
+                .here((users) => {
+                    this.users = users
+                })
+                .joining((user) => {
+                    this.users = user
+                    console.log(user.name);
+                })
+                .leaving((user) => {
+                    console.log(user.name);
+                });
+        },
     }
 </script>
