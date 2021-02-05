@@ -82,6 +82,13 @@
             }
         },
         mounted(){
+           Echo.private(`chat.${authuser.id}`)
+            .listen('MessageSend', (e) => {
+                this.selectUser(e.message.to)
+                this.selectUser(this.userMessage.user.id)
+
+                // console.log(e.message.to);
+            });
             this.$store.dispatch('userList')
         },
         computed: {

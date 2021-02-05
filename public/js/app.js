@@ -1991,6 +1991,14 @@ __webpack_require__.r(__webpack_exports__);
     };
   },
   mounted: function mounted() {
+    var _this = this;
+
+    Echo["private"]("chat.".concat(authuser.id)).listen('MessageSend', function (e) {
+      _this.selectUser(e.message.to);
+
+      _this.selectUser(_this.userMessage.user.id); // console.log(e.message.to);
+
+    });
     this.$store.dispatch('userList');
   },
   computed: {
@@ -2003,16 +2011,16 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     sendMessage: function sendMessage() {
-      var _this = this;
+      var _this2 = this;
 
       if (this.message != '') {
         axios.post('/sendmessage', {
           message: this.message,
           userid: this.userMessage.user.id
         }).then(function (response) {
-          _this.message = '';
+          _this2.message = '';
 
-          _this.selectUser(_this.userMessage.user.id);
+          _this2.selectUser(_this2.userMessage.user.id);
         });
       }
     },
@@ -2020,17 +2028,17 @@ __webpack_require__.r(__webpack_exports__);
       this.$store.dispatch('userMessage', userId);
     },
     deleteSingleMessage: function deleteSingleMessage(id) {
-      var _this2 = this;
+      var _this3 = this;
 
       axios["delete"]("/delete/single/message/".concat(id)).then(function (response) {
-        _this2.selectUser(_this2.userMessage.user.id);
+        _this3.selectUser(_this3.userMessage.user.id);
       });
     },
     deleteAllMessage: function deleteAllMessage() {
-      var _this3 = this;
+      var _this4 = this;
 
       axios["delete"]("/delete/all/message/".concat(this.userMessage.user.id)).then(function (response) {
-        _this3.selectUser(_this3.userMessage.user.id);
+        _this4.selectUser(_this4.userMessage.user.id);
       });
     }
   } // created(){
@@ -79298,7 +79306,8 @@ window.Echo = new laravel_echo__WEBPACK_IMPORTED_MODULE_0__["default"]({
   encrypted: true,
   wsHost: window.location.hostname,
   wsPort: 6001,
-  disableStats: true
+  disableStats: true,
+  enabledTransports: ['ws', 'wss']
 });
 
 /***/ }),

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\MessageSend;
 use App\Models\Message;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -64,11 +65,12 @@ class MessageController extends Controller
                 'message' => $request->message,
                 'type' =>  1,
             ]);
+
+            broadcast(new MessageSend($message));
+
         } else {
             abort(404);
         }
-
-        return $message;
     }
 
     public function deleteSingleMessage($id)
