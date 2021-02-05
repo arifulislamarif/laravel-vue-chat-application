@@ -1985,19 +1985,30 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
-      message: ''
+      message: '',
+      typing: ''
     };
   },
   mounted: function mounted() {
     var _this = this;
 
+    this.$store.dispatch('userList');
     Echo["private"]("chat.".concat(authuser.id)).listen('MessageSend', function (e) {
       _this.selectUser(e.message.from);
     });
-    this.$store.dispatch('userList');
+    Echo["private"]("typingevent").listenForWhisper('typing', function (e) {
+      if (e.user.id == _this.userMessage.user.id && e.userId == authuser.id) {
+        _this.typing = e.user.name;
+      }
+
+      setTimeout(function () {
+        _this.typing = '';
+      }, 2000);
+    });
   },
   computed: {
     userList: function userList() {
@@ -2037,6 +2048,13 @@ __webpack_require__.r(__webpack_exports__);
 
       axios["delete"]("/delete/all/message/".concat(this.userMessage.user.id)).then(function (response) {
         _this4.selectUser(_this4.userMessage.user.id);
+      });
+    },
+    typingEvent: function typingEvent(userId) {
+      Echo["private"]("typingevent").whisper('typing', {
+        'user': authuser,
+        'typing': this.message,
+        'userId': userId
       });
     }
   } // created(){
@@ -65686,6 +65704,10 @@ var render = function() {
       ),
       _vm._v(" "),
       _c("div", { staticClass: "chat-message clearfix" }, [
+        _vm.typing
+          ? _c("p", [_vm._v(_vm._s(_vm.typing) + " typing...")])
+          : _vm._e(),
+        _vm._v(" "),
         _vm.userMessage.user
           ? _c("textarea", {
               directives: [
@@ -65704,6 +65726,9 @@ var render = function() {
               },
               domProps: { value: _vm.message },
               on: {
+                keydown: function($event) {
+                  return _vm.typingEvent(_vm.userMessage.user.id)
+                },
                 keypress: function($event) {
                   if (
                     !$event.type.indexOf("key") &&

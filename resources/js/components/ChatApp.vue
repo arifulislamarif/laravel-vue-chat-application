@@ -61,7 +61,8 @@
       </div> <!-- end chat-history -->
 
       <div class="chat-message clearfix">
-        <textarea v-if="userMessage.user" @keypress.enter.prevent="sendMessage" v-model="message" name="message-to-send" id="message-to-send" placeholder ="Type your message" rows="3"></textarea>
+        <p v-if="typing">{{ typing }} typing...</p>
+        <textarea v-if="userMessage.user" @keydown="typingEvent(userMessage.user.id)" @keypress.enter.prevent="sendMessage" v-model="message" name="message-to-send" id="message-to-send" placeholder ="Type your message" rows="3"></textarea>
         <textarea v-else disabled  id="message-to-send" placeholder ="Type your message" rows="3"></textarea>
 
         <i class="fa fa-file-o"></i> &nbsp;&nbsp;&nbsp;
@@ -79,22 +80,34 @@
     export default {
         data() {
             return {
-                message: ''
+                message: '',
+                typing: ''
             }
         },
         mounted(){
-           Echo.private(`chat.${authuser.id}`)
+            this.$store.dispatch('userList')
+
+            Echo.private(`chat.${authuser.id}`)
             .listen('MessageSend', (e) => {
                 this.selectUser(e.message.from)
             });
-            this.$store.dispatch('userList')
+
+            Echo.private(`typingevent`)
+            .listenForWhisper('typing', (e) => {
+                if (e.user.id == this.userMessage.user.id && e.userId == authuser.id) {
+                    this.typing = e.user.name
+                }
+                setTimeout(() => {
+                    this.typing = ''
+                }, 2000);
+            });
         },
         computed: {
             userList(){
-               return this.$store.getters.userList
+                return this.$store.getters.userList
             },
             userMessage(){
-               return this.$store.getters.userMessage
+                return this.$store.getters.userMessage
             }
         },
         methods: {
@@ -125,6 +138,14 @@
                 .then(response => {
                     this.selectUser(this.userMessage.user.id)
                 })
+            },
+            typingEvent(userId){
+                Echo.private(`typingevent`)
+                .whisper('typing', {
+                    'user': authuser,
+                    'typing': this.message,
+                    'userId': userId
+                });
             },
         },
         // created(){
