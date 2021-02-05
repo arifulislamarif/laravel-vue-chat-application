@@ -1997,7 +1997,8 @@ __webpack_require__.r(__webpack_exports__);
     return {
       message: '',
       typing: '',
-      users: ''
+      users: [],
+      online: ''
     };
   },
   mounted: function mounted() {
@@ -2076,7 +2077,7 @@ __webpack_require__.r(__webpack_exports__);
     Echo.join("liveUser").here(function (users) {
       _this5.users = users;
     }).joining(function (user) {
-      _this5.users = user;
+      _this5.online = user;
       console.log(user.name);
     }).leaving(function (user) {
       console.log(user.name);
@@ -65518,7 +65519,7 @@ var render = function() {
               _c("div", { staticClass: "about" }, [
                 _c("div", { staticClass: "name" }, [_vm._v(_vm._s(user.name))]),
                 _vm._v(" "),
-                _vm.onlineUser(user.id)
+                _vm.onlineUser(user.id) || _vm.online.id == user.id
                   ? _c(
                       "div",
                       {
@@ -65550,84 +65551,82 @@ var render = function() {
     ]),
     _vm._v(" "),
     _c("div", { staticClass: "chat" }, [
-      _c("div", { staticClass: "chat-header clearfix" }, [
-        _c("img", {
-          staticStyle: { "border-radius": "30px" },
-          attrs: {
-            height: "55px",
-            width: "55px",
-            src:
-              "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTpCKq1XnPYYDaUIlwlsvmLPZ-9-rdK28RToA&usqp=CAU",
-            alt: "avatar"
-          }
-        }),
-        _vm._v(" "),
-        _c("div", { staticClass: "chat-about" }, [
-          _vm.userMessage.user
-            ? _c(
-                "div",
-                {
-                  staticClass: "chat-with",
-                  staticStyle: { display: "inline-block" }
-                },
-                [_vm._v(_vm._s(_vm.userMessage.user.name))]
-              )
-            : _vm._e(),
-          _vm._v(" "),
-          _c(
-            "div",
-            {
-              staticClass: "dropdown",
-              staticStyle: { display: "inline-block" }
-            },
-            [
-              _c(
-                "a",
-                {
-                  staticClass: "btn btn-primary btn-sm",
-                  attrs: {
-                    type: "button",
-                    id: "dropdownMenuButton",
-                    "data-toggle": "dropdown",
-                    "aria-haspopup": "true",
-                    "aria-expanded": "false"
-                  }
-                },
-                [_vm._v("\n                  ...\n              ")]
-              ),
+      _vm.userMessage.user
+        ? _c("div", { staticClass: "chat-header clearfix" }, [
+            _c("img", {
+              staticStyle: { "border-radius": "30px" },
+              attrs: {
+                height: "55px",
+                width: "55px",
+                src:
+                  "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTpCKq1XnPYYDaUIlwlsvmLPZ-9-rdK28RToA&usqp=CAU",
+                alt: "avatar"
+              }
+            }),
+            _vm._v(" "),
+            _c("div", { staticClass: "chat-about" }, [
+              _vm.userMessage.user
+                ? _c(
+                    "div",
+                    {
+                      staticClass: "chat-with",
+                      staticStyle: { display: "inline-block" }
+                    },
+                    [_vm._v(_vm._s(_vm.userMessage.user.name))]
+                  )
+                : _vm._e(),
               _vm._v(" "),
               _c(
                 "div",
                 {
-                  staticClass: "dropdown-menu",
-                  attrs: { "aria-labelledby": "dropdownMenuButton" }
+                  staticClass: "dropdown",
+                  staticStyle: { display: "inline-block" }
                 },
                 [
                   _c(
                     "a",
                     {
-                      staticClass: "dropdown-item",
-                      on: {
-                        click: function($event) {
-                          $event.preventDefault()
-                          return _vm.deleteAllMessage($event)
-                        }
+                      staticClass: "btn btn-primary btn-sm",
+                      attrs: {
+                        type: "button",
+                        id: "dropdownMenuButton",
+                        "data-toggle": "dropdown",
+                        "aria-haspopup": "true",
+                        "aria-expanded": "false"
                       }
                     },
-                    [_vm._v("Delete All Messages")]
+                    [_vm._v("\n                  ...\n              ")]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "div",
+                    {
+                      staticClass: "dropdown-menu",
+                      attrs: { "aria-labelledby": "dropdownMenuButton" }
+                    },
+                    [
+                      _c(
+                        "a",
+                        {
+                          staticClass: "dropdown-item",
+                          on: {
+                            click: function($event) {
+                              $event.preventDefault()
+                              return _vm.deleteAllMessage($event)
+                            }
+                          }
+                        },
+                        [_vm._v("Delete All Messages")]
+                      )
+                    ]
                   )
                 ]
               )
-            ]
-          ),
-          _vm._v(" "),
-          _c("div", { staticClass: "chat-num-messages" }, [
-            _vm._v("already 1 902 messages")
+            ]),
+            _vm._v(" "),
+            _c("i", { staticClass: "fa fa-star" })
           ])
-        ]),
-        _vm._v(" "),
-        _c("i", { staticClass: "fa fa-star" })
-      ]),
+        : _vm._e(),
       _vm._v(" "),
       _c(
         "div",
@@ -65737,76 +65736,74 @@ var render = function() {
         ]
       ),
       _vm._v(" "),
-      _c("div", { staticClass: "chat-message clearfix" }, [
-        _vm.typing
-          ? _c("p", [_vm._v(_vm._s(_vm.typing) + " typing...")])
-          : _vm._e(),
-        _vm._v(" "),
-        _vm.userMessage.user
-          ? _c("textarea", {
-              directives: [
-                {
-                  name: "model",
-                  rawName: "v-model",
-                  value: _vm.message,
-                  expression: "message"
+      _vm.userMessage.user
+        ? _c("div", { staticClass: "chat-message clearfix" }, [
+            _vm.typing
+              ? _c("p", [_vm._v(_vm._s(_vm.typing) + " typing...")])
+              : _vm._e(),
+            _vm._v(" "),
+            _vm.userMessage.user
+              ? _c("textarea", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.message,
+                      expression: "message"
+                    }
+                  ],
+                  attrs: {
+                    name: "message-to-send",
+                    id: "message-to-send",
+                    placeholder: "Type your message",
+                    rows: "3"
+                  },
+                  domProps: { value: _vm.message },
+                  on: {
+                    keydown: function($event) {
+                      return _vm.typingEvent(_vm.userMessage.user.id)
+                    },
+                    keypress: function($event) {
+                      if (
+                        !$event.type.indexOf("key") &&
+                        _vm._k($event.keyCode, "enter", 13, $event.key, "Enter")
+                      ) {
+                        return null
+                      }
+                      $event.preventDefault()
+                      return _vm.sendMessage($event)
+                    },
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.message = $event.target.value
+                    }
+                  }
+                })
+              : _c("textarea", {
+                  attrs: {
+                    disabled: "",
+                    id: "message-to-send",
+                    placeholder: "Type your message",
+                    rows: "3"
+                  }
+                }),
+            _vm._v(" "),
+            _c(
+              "button",
+              {
+                on: {
+                  click: function($event) {
+                    $event.preventDefault()
+                    return _vm.sendMessage($event)
+                  }
                 }
-              ],
-              attrs: {
-                name: "message-to-send",
-                id: "message-to-send",
-                placeholder: "Type your message",
-                rows: "3"
               },
-              domProps: { value: _vm.message },
-              on: {
-                keydown: function($event) {
-                  return _vm.typingEvent(_vm.userMessage.user.id)
-                },
-                keypress: function($event) {
-                  if (
-                    !$event.type.indexOf("key") &&
-                    _vm._k($event.keyCode, "enter", 13, $event.key, "Enter")
-                  ) {
-                    return null
-                  }
-                  $event.preventDefault()
-                  return _vm.sendMessage($event)
-                },
-                input: function($event) {
-                  if ($event.target.composing) {
-                    return
-                  }
-                  _vm.message = $event.target.value
-                }
-              }
-            })
-          : _c("textarea", {
-              attrs: {
-                disabled: "",
-                id: "message-to-send",
-                placeholder: "Type your message",
-                rows: "3"
-              }
-            }),
-        _vm._v(" "),
-        _c("i", { staticClass: "fa fa-file-o" }),
-        _vm._v("    \n      "),
-        _c("i", { staticClass: "fa fa-file-image-o" }),
-        _vm._v(" "),
-        _c(
-          "button",
-          {
-            on: {
-              click: function($event) {
-                $event.preventDefault()
-                return _vm.sendMessage($event)
-              }
-            }
-          },
-          [_vm._v("Send")]
-        )
-      ])
+              [_vm._v("Send")]
+            )
+          ])
+        : _vm._e()
     ])
   ])
 }

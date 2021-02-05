@@ -10,7 +10,7 @@
         <img height="55px" width="55px" style="border-radius:30px" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTpCKq1XnPYYDaUIlwlsvmLPZ-9-rdK28RToA&usqp=CAU" alt="avatar" />
           <div class="about">
             <div class="name">{{ user.name }}</div>
-            <div v-if="onlineUser(user.id)" class="status" style="color:white">
+            <div v-if="onlineUser(user.id) || online.id == user.id" class="status" style="color:white">
                 <i class="fa fa-circle online"></i> online
             </div>
             <div v-else class="status" style="color:white">
@@ -22,7 +22,7 @@
     </div>
 
     <div class="chat">
-      <div class="chat-header clearfix">
+      <div class="chat-header clearfix" v-if=" userMessage.user">
         <img height="55px" width="55px" style="border-radius:30px" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTpCKq1XnPYYDaUIlwlsvmLPZ-9-rdK28RToA&usqp=CAU" alt="avatar" />
 
         <div class="chat-about">
@@ -35,7 +35,7 @@
                     <a class="dropdown-item" @click.prevent="deleteAllMessage">Delete All Messages</a>
                 </div>
             </div>
-          <div class="chat-num-messages">already 1 902 messages</div>
+          <!-- <div class="chat-num-messages">already 1 902 messages</div> -->
         </div>
         <i class="fa fa-star"></i>
       </div> <!-- end chat-header -->
@@ -63,13 +63,13 @@
 
       </div> <!-- end chat-history -->
 
-      <div class="chat-message clearfix">
+      <div class="chat-message clearfix" v-if=" userMessage.user">
         <p v-if="typing">{{ typing }} typing...</p>
         <textarea v-if="userMessage.user" @keydown="typingEvent(userMessage.user.id)" @keypress.enter.prevent="sendMessage" v-model="message" name="message-to-send" id="message-to-send" placeholder ="Type your message" rows="3"></textarea>
         <textarea v-else disabled  id="message-to-send" placeholder ="Type your message" rows="3"></textarea>
 
-        <i class="fa fa-file-o"></i> &nbsp;&nbsp;&nbsp;
-        <i class="fa fa-file-image-o"></i>
+        <!-- <i class="fa fa-file-o"></i> &nbsp;&nbsp;&nbsp;
+        <i class="fa fa-file-image-o"></i> -->
 
         <button @click.prevent="sendMessage">Send</button>
 
@@ -86,7 +86,8 @@
             return {
                 message: '',
                 typing: '',
-                users: ''
+                users: [],
+                online: ''
             }
         },
         mounted(){
@@ -162,7 +163,7 @@
                     this.users = users
                 })
                 .joining((user) => {
-                    this.users = user
+                    this.online = user
                     console.log(user.name);
                 })
                 .leaving((user) => {
