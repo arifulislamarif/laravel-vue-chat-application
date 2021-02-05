@@ -1994,9 +1994,8 @@ __webpack_require__.r(__webpack_exports__);
     var _this = this;
 
     Echo["private"]("chat.".concat(authuser.id)).listen('MessageSend', function (e) {
-      _this.selectUser(e.message.to);
-
-      _this.selectUser(_this.userMessage.user.id); // console.log(e.message.to);
+      _this.selectUser(e.message.from); // this.selectUser(this.userMessage.user.id)
+      // console.log(e.message.to);
 
     });
     this.$store.dispatch('userList');
